@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Account, type: :model do
 
+  it { is_expected.to validate_presence_of :email }
+  it { is_expected.to validate_uniqueness_of :email }
+  it { is_expected.to validate_length_of(:password).is_at_least(6).with_message('should at least be 6 characters long.') }
+
   it 'has a valid factory' do
     expect(FactoryGirl.create(:account)).to be_valid
-  end
-
-  it 'is invalid without an email' do
-    expect(FactoryGirl.build(:account, email: nil)).to_not be_valid
   end
 
   %w(@gmail.com mail@ gmail.com).each do |badmail|
@@ -47,11 +47,6 @@ RSpec.describe Account, type: :model do
       account.password = 'nyancat'
       account.save!
       expect(account.password_hash.length).to eq(64)
-    end
-
-    it 'needs more than 5 characters to be validated' do
-      account.password = '12345'
-      expect(account).to_not be_valid
     end
 
   end
