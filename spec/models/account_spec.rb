@@ -24,7 +24,7 @@ RSpec.describe Account, type: :model do
   it 'can be instanced from params' do
     params = { email: 'developer@qualify.com', password: 'secret' }
     account = Account.new_from_params(params)
-    expect(account.email).to eq(params['email'])
+    expect(account.email).to eq(params[:email])
   end
 
   describe 'password' do

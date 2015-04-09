@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
 
   def create
-    account = Account.new_from_params(@json)
+    account = Account.new_from_params(params)
     if account.save
       return render nothing: true,
                     status: :created
@@ -9,12 +9,6 @@ class AccountsController < ApplicationController
     render json: {
                message: I18n.t('account.create.invalid'),
                reasons: account.errors
-           },
-           status: :unprocessable_entity
-
-  rescue ActiveRecord::RecordInvalid
-    render json: {
-               message: I18n.t('account.create.taken')
            },
            status: :unprocessable_entity
   end

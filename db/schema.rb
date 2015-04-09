@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401105228) do
+ActiveRecord::Schema.define(version: 20150409191023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,5 +23,15 @@ ActiveRecord::Schema.define(version: 20150401105228) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.string   "key",        limit: 32
+    t.integer  "account_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "api_keys", ["account_id"], name: "index_api_keys_on_account_id", using: :btree
+  add_index "api_keys", ["key"], name: "index_api_keys_on_key", unique: true, using: :btree
 
 end

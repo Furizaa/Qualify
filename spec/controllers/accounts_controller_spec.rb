@@ -7,7 +7,7 @@ RSpec.describe AccountsController, type: :controller do
     context 'when supplied with valid params' do
 
       before do
-        post :create, ActiveSupport::JSON.encode({ email: 'valid@qualify.ch', password: 'secret' })
+        post :create, { email: 'valid@qualify.ch', password: 'secret' }
       end
 
       it { is_expected.to respond_with 201 }
@@ -16,16 +16,17 @@ RSpec.describe AccountsController, type: :controller do
 
     context 'when supplied with invalid email' do
       before do
-        post :create, ActiveSupport::JSON.encode({ email: '', password: 'secret' })
+        post :create, { email: '', password: 'secret' }
       end
 
       it { is_expected.to respond_with 422 }
       it { expect(response.body).to have_json_path('reasons/email') }
+      it { expect(json_response['reasons']['email'].first).to match /not valid/ }
     end
 
     context 'when supplied with invalid password' do
       before do
-        post :create, ActiveSupport::JSON.encode({ email: 'valid2@qualify.ch', password: 'sec' })
+        post :create, { email: 'valid2@qualify.ch', password: 'sec' }
       end
 
       it { is_expected.to respond_with 422 }
@@ -34,16 +35,28 @@ RSpec.describe AccountsController, type: :controller do
 
     context 'when supplied with malformed request' do
       before do
-        post :create, ActiveSupport::JSON.encode({})
+        post :create, {}
       end
       it { is_expected.to respond_with 422 }
       it { expect(response.body).to have_json_path('reasons/email') }
+      it { expect(json_response['reasons']['email'].first).to match /not valid/ }
+    end
+
+    context 'when the same account is created twice' do
+      before do
+        post :create, { email: 'valid@qualify.ch', password: 'secret' }
+        post :create, { email: 'valid@qualify.ch', password: 'secret' }
+      end
+
+      it { is_expected.to respond_with 422 }
+      it { expect(response.body).to have_json_path('reasons/email') }
+      it { expect(json_response['reasons']['email'].first).to match /already been taken/ }
     end
   end
 
   describe '.authenticate' do
     before do
-      post :create, ActiveSupport::JSON.encode({ email: 'valid@qualify.ch', password: 'secret' })
+      post :create, { email: 'valid@qualify.ch', password: 'secret' }
     end
 
     it 'returns 401 on invalid email' do

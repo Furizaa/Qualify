@@ -6,6 +6,8 @@ class Account < ActiveRecord::Base
   validate :validate_password
   validates_uniqueness_of :email
 
+  has_many :api_keys, dependent: :destroy
+
   before_save :ensure_password_is_hashed
 
   PASSWORD_MIN_LENGTH = 6
@@ -34,8 +36,8 @@ class Account < ActiveRecord::Base
 
   def self.new_from_params(params)
     account = Account.new
-    account.email = params['email']
-    account.password = params['password']
+    account.email = params[:email]
+    account.password = params[:password]
     return account
   end
 
