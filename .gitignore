@@ -9,6 +9,7 @@
 
 # Ignode Build Artifacts
 .coverage
+coverage
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
