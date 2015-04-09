@@ -1,1 +1,1 @@
-[Build Status](https://circleci.com/gh/Furizaa/Qualify/tree/develop.svg?style=shield&circle-token=98efa8ccd26d9a88de96713505d20567b45555c3)
+![Build Status](https://circleci.com/gh/Furizaa/Qualify/tree/develop.svg?style=shield&circle-token=98efa8ccd26d9a88de96713505d20567b45555c3)
