@@ -11,5 +11,13 @@ SimpleCov.start do
   add_filter '/db/'
 
   project_name 'Qualify'
-  coverage_dir '.coverage'
+
+  # Set special coverage dir if we are running on circle ci
+  # https://circleci.com/docs/code-coverage
+  if ENV['CIRCLE_ARTIFACTS']
+    dir = File.join('..', '..', '..', ENV['CIRCLE_ARTIFACTS'], "coverage")
+    coverage_dir(dir)
+  elsif
+    coverage_dir '.coverage'
+  end
 end
