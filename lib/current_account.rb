@@ -1,7 +1,7 @@
 module Qualify
   module CurrentAccount
 
-    def self.initialize_from_jwt(token)
+    def log_on_jwt(token)
       if token
         begin
           payload = JWT.decode(token, 'current_account_id')

@@ -34,6 +34,12 @@ class Account < ActiveRecord::Base
     self.password_hash == hash_password(password, salt)
   end
 
+  def add_api_key
+    key = ApiKey.new
+    key.generate_key!
+    self.api_keys << key
+  end
+
   def self.new_from_params(params)
     account = Account.new
     account.email = params[:email]

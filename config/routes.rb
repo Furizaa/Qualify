@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
+
   post 'accounts' => 'accounts#create'
   get 'accounts'  => 'accounts#authenticate'
+
+  post 'api_keys' => 'api_keys#create'
+  delete 'api_keys/:id' => 'api_keys#delete'
+  get 'api_keys' => 'api_keys#index'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

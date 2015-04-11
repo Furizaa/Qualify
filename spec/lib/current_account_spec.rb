@@ -28,7 +28,7 @@ RSpec.describe 'CurrentAccount' do
     log_off_account
     expect(current_account.present?).to be_falsey
     account.save!
-    Qualify::CurrentAccount.initialize_from_jwt(jwt)
+    log_on_jwt(jwt)
     expect(current_account.present?).to be_truthy
   end
 end

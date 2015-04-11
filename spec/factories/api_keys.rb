@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :api_key do
-    key "MyString"
-account ""
+    account
+    key { SecureRandom.hex(16) }
   end
-
 end
