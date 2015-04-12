@@ -28,7 +28,6 @@ RSpec.describe Account, type: :model do
   end
 
   describe 'password' do
-
     let(:account) { FactoryGirl.create(:account) }
 
     it 'can be confirmed' do
@@ -48,7 +47,17 @@ RSpec.describe Account, type: :model do
       account.save!
       expect(account.password_hash.length).to eq(64)
     end
+  end
 
+  describe '#add_api_key' do
+    let(:account) { FactoryGirl.create(:account) }
+
+    before do
+      account.add_api_key
+    end
+
+    it { expect(account.api_keys.length).to be(1) }
+    it { expect(account.api_keys.first.key.present?).to be_truthy }
   end
 
 end

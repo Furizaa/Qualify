@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApiKeysController, type: :controller do
+RSpec.describe Api::V1::ApiKeysController, type: :controller do
 
   render_views
 
@@ -12,7 +12,7 @@ RSpec.describe ApiKeysController, type: :controller do
     context 'when authenticated as account with api access' do
       before do
         authenticate_with_jwt :account_with_api_access
-        get :index, format: :json
+        get :index
       end
 
       it { is_expected.to respond_with(200) }
@@ -27,7 +27,7 @@ RSpec.describe ApiKeysController, type: :controller do
     context 'when authenticated as account without api access' do
       before do
         authenticate_with_jwt :account
-        get :index, format: :json
+        get :index
       end
 
       it { is_expected.to respond_with(200) }
@@ -40,7 +40,7 @@ RSpec.describe ApiKeysController, type: :controller do
     context 'when authenticated' do
       before do
         @account = authenticate_with_jwt :account
-        post :create, format: :json
+        post :create
       end
 
       it { is_expected.to respond_with(201) }
@@ -52,7 +52,7 @@ RSpec.describe ApiKeysController, type: :controller do
     context 'when authenticated as account with api access' do
       before do
         @account = authenticate_with_jwt :account_with_api_access
-        delete :delete, id: @account.api_keys.first.key, format: :json
+        delete :delete, id: @account.api_keys.first.key
       end
 
       it { is_expected.to respond_with(200) }
@@ -62,7 +62,7 @@ RSpec.describe ApiKeysController, type: :controller do
     context 'when consumer tries to delete foreign key' do
       before do
         @account = authenticate_with_jwt :account_with_api_access
-        delete :delete, id: 'NOT_A_KEY_THAT_IS_FROM_THE_ACCOUNT', format: :json
+        delete :delete, id: 'NOT_A_KEY_THAT_IS_FROM_THE_ACCOUNT'
       end
 
       it { is_expected.to respond_with(404) }

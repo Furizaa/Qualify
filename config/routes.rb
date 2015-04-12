@@ -1,11 +1,17 @@
+require 'api_constraints'
+
 Rails.application.routes.draw do
 
-  post 'accounts' => 'accounts#create'
-  get 'accounts'  => 'accounts#authenticate'
+  namespace :api, defaults: { format: :json }, constraints: ApiConstraints.new(version: 1) do
+    namespace :v1 do
+      post 'accounts' => 'accounts#create'
+      get 'accounts'  => 'accounts#authenticate'
 
-  post 'api_keys' => 'api_keys#create'
-  delete 'api_keys/:id' => 'api_keys#delete'
-  get 'api_keys' => 'api_keys#index'
+      post 'api_keys' => 'api_keys#create'
+      delete 'api_keys/:id' => 'api_keys#delete'
+      get 'api_keys' => 'api_keys#index'
+    end
+  end
 
 
   # The priority is based upon order of creation: first created -> highest priority.
