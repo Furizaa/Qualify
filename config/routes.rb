@@ -7,9 +7,7 @@ Rails.application.routes.draw do
       post 'accounts' => 'accounts#create'
       get 'accounts'  => 'accounts#authenticate'
 
-      post 'api_keys' => 'api_keys#create'
-      delete 'api_keys/:id' => 'api_keys#delete'
-      get 'api_keys' => 'api_keys#index'
+      resources :api_keys, only: [:index, :create, :destroy]
     end
   end
 

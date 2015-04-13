@@ -14,7 +14,7 @@ module Api
         render nothing: true, status: :created
       end
 
-      def delete
+      def destroy
         @api_key = current_account.api_keys.find_by_key(params[:id])
         if @api_key.present?
           current_account.api_keys.delete(@api_key)

@@ -7,6 +7,7 @@ class Account < ActiveRecord::Base
   validates_uniqueness_of :email
 
   has_many :api_keys, dependent: :destroy
+  has_many :schemas, dependent: :destroy
 
   before_save :ensure_password_is_hashed
 

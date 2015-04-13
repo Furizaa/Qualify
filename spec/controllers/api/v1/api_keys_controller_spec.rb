@@ -8,7 +8,7 @@ RSpec.describe Api::V1::ApiKeysController, type: :controller do
     it { is_expected.to use_before_action(:authenticate_jwt!) }
   end
 
-  describe 'GET' do
+  describe 'index' do
     context 'when authenticated as account with api access' do
       before do
         authenticate_with_jwt :account_with_api_access
@@ -36,7 +36,7 @@ RSpec.describe Api::V1::ApiKeysController, type: :controller do
     end
   end
 
-  describe 'POST' do
+  describe 'create' do
     context 'when authenticated' do
       before do
         @account = authenticate_with_jwt :account
@@ -48,11 +48,11 @@ RSpec.describe Api::V1::ApiKeysController, type: :controller do
     end
   end
 
-  describe 'DELETE' do
+  describe 'destroy' do
     context 'when authenticated as account with api access' do
       before do
         @account = authenticate_with_jwt :account_with_api_access
-        delete :delete, id: @account.api_keys.first.key
+        delete :destroy, id: @account.api_keys.first.key
       end
 
       it { is_expected.to respond_with(200) }
@@ -62,7 +62,7 @@ RSpec.describe Api::V1::ApiKeysController, type: :controller do
     context 'when consumer tries to delete foreign key' do
       before do
         @account = authenticate_with_jwt :account_with_api_access
-        delete :delete, id: 'NOT_A_KEY_THAT_IS_FROM_THE_ACCOUNT'
+        delete :destroy, id: 'NOT_A_KEY_THAT_IS_FROM_THE_ACCOUNT'
       end
 
       it { is_expected.to respond_with(404) }
