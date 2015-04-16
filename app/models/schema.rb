@@ -4,4 +4,5 @@ class Schema < ActiveRecord::Base
   include HasUuid
 
   belongs_to :account
+  validates_presence_of :name
 end

@@ -6,12 +6,16 @@ if ENV['CIRCLE_ARTIFACTS']
 end
 
 module Helpers
+
+  require 'current_account'
+  include Qualify::CurrentAccount
+
   def json_response
     ActiveSupport::JSON.decode(response.body)
   end
 
-  def authenticate_with_jwt(factory)
-    account = FactoryGirl.create(factory)
+  def authenticate_with_jwt(account)
+    account = FactoryGirl.create(account) if account.is_a?(Symbol)
     log_on_account(account)
     request.headers['X-Jwt-Token'] = current_account_jwt
     account

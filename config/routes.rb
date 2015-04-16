@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get 'accounts'  => 'accounts#authenticate'
 
       resources :api_keys, only: [:index, :create, :destroy]
+      resources :schemas
     end
   end
 

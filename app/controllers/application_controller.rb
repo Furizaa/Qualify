@@ -1,5 +1,6 @@
 require 'current_account'
 require_dependency 'qualify'
+require_dependency 'guardian'
 
 class ApplicationController < ActionController::API
 
@@ -14,6 +15,10 @@ class ApplicationController < ActionController::API
     render nothing: true, status: :unauthorized
   end
 
+  def guardian
+    @guardian ||= Guardian.new(current_account)
+  end
+
   protected
 
   def authenticate_jwt!
@@ -23,5 +28,13 @@ class ApplicationController < ActionController::API
 
   def set_default_response_format
     request.format = :json
+  end
+
+  def render_validation_error(model)
+    render json: {
+               message: I18n.t('api.create.invalid'),
+               reasons: model.errors
+           },
+           status: :unprocessable_entity
   end
 end

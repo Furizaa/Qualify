@@ -32,3 +32,6 @@ en:
       taken: "account already exists"
   authenticate:
     failure: "invalid credentials"
+  api:
+    create:
+      invalid: "Invalid Parameters"
