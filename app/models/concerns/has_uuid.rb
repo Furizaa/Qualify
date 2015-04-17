@@ -2,7 +2,7 @@ module HasUuid
   extend ActiveSupport::Concern
 
   included do
-    after_create :generate_uuid
+    before_create :generate_uuid
   end
 
   def generate_uuid

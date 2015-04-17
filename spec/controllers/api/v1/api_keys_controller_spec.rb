@@ -8,7 +8,7 @@ RSpec.describe Api::V1::ApiKeysController, type: :controller do
     it { is_expected.to use_before_action(:authenticate_jwt!) }
   end
 
-  describe 'index' do
+  describe '#index' do
     context 'when authenticated as account with api access' do
       before do
         authenticate_with_jwt :account_with_api_access
@@ -36,7 +36,7 @@ RSpec.describe Api::V1::ApiKeysController, type: :controller do
     end
   end
 
-  describe 'create' do
+  describe '#create' do
     context 'when authenticated' do
       before do
         @account = authenticate_with_jwt :account
@@ -48,7 +48,7 @@ RSpec.describe Api::V1::ApiKeysController, type: :controller do
     end
   end
 
-  describe 'destroy' do
+  describe '#destroy' do
     context 'when authenticated as account with api access' do
       before do
         @account = authenticate_with_jwt :account_with_api_access

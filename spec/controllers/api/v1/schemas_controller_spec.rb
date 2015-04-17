@@ -41,7 +41,6 @@ RSpec.describe Api::V1::SchemasController, type: :controller do
       context 'when account owns the schema' do
         let(:schema) { FactoryGirl.create(:schema, account: @account) }
         before do
-          schema.reload
           delete :destroy, { id: schema.uuid }
         end
 
@@ -52,7 +51,6 @@ RSpec.describe Api::V1::SchemasController, type: :controller do
       context 'when account does not own the schema' do
         let(:schema) { FactoryGirl.create(:schema) }
         before do
-          schema.reload
           delete :destroy, { id: schema.uuid }
         end
 
@@ -72,7 +70,6 @@ RSpec.describe Api::V1::SchemasController, type: :controller do
       context 'when account owns the schema' do
         let(:schema) { FactoryGirl.create(:schema, account: @account) }
         before do
-          schema.reload
           get :show, { id: schema.uuid }
         end
 
@@ -86,7 +83,6 @@ RSpec.describe Api::V1::SchemasController, type: :controller do
       context 'when account does not own the schema' do
         let(:schema) { FactoryGirl.create(:schema) }
         before do
-          schema.reload
           get :show, { id: schema.uuid }
         end
 
@@ -100,6 +96,67 @@ RSpec.describe Api::V1::SchemasController, type: :controller do
 
         it { is_expected.to respond_with(404) }
       end
+    end
+
+    describe '#update' do
+      context 'when account owns the schema' do
+        let(:schema) { FactoryGirl.create(:schema, account: @account) }
+        before do
+          put :update, { id: schema.uuid, name: 'new name' }
+        end
+
+        it { is_expected.to respond_with(200) }
+        it { expect(response.body).to have_json_path('data/type') }
+        it { expect(response.body).to have_json_path('data/id') }
+        it { expect(response.body).to have_json_path('data/name') }
+        it { expect(response.body).to have_json_path('data/links/self') }
+        it 'has the new name' do
+          schema.reload
+          expect(schema.name).to eq('new name')
+        end
+      end
+
+      context 'when attributes are invalid' do
+        let(:schema) { FactoryGirl.create(:schema, account: @account) }
+        before do
+          put :update, { id: schema.uuid, name: '' }
+        end
+
+        it { is_expected.to respond_with(422) }
+      end
+
+      context 'when account does not own the schema' do
+        let(:schema) { FactoryGirl.create(:schema) }
+        before do
+          put :update, { id: schema.uuid, name: 'new name' }
+        end
+
+        it { is_expected.to respond_with(404) }
+      end
+
+      context 'when schema does not exist' do
+        before do
+          put :update, { id: 'does_not_exist' }
+        end
+
+        it { is_expected.to respond_with(404) }
+      end
+    end
+
+    describe '#index' do
+      before do
+        FactoryGirl.create(:schema, account: @account)
+        FactoryGirl.create(:schema)
+        get :index
+      end
+
+      it { is_expected.to respond_with(200) }
+      it { expect(response.body).to have_json_path('data/0/type') }
+      it { expect(response.body).to have_json_path('data/0/id') }
+      it { expect(response.body).to have_json_path('data/0/name') }
+      it { expect(response.body).to have_json_path('data/0/links/self') }
+
+      it { expect(response.body).to_not have_json_path('data/1') }
     end
   end
 

@@ -5,6 +5,7 @@ module Api
       before_action :authenticate_jwt!
 
       def index
+        @schemas = Schema.where(account_id: current_account.id)
       end
 
       def show
@@ -14,6 +15,7 @@ module Api
 
       def create
         @schema = Schema.new(create_params)
+        @schema.account = current_account
         return render_validation_error(@schema) unless @schema.save
         render template: 'api/v1/schemas/show', status: :created
       end
@@ -26,7 +28,14 @@ module Api
         render nothing: true, status: :no_content
       end
 
-      def edit
+      def update
+        @schema = Schema.find_by_uuid(params[:id])
+        return render nothing: true, status: :not_found unless guardian.can_view_schema?(@schema)
+
+        @schema.name = params[:name] unless params[:name].nil?
+        return render_validation_error(@schema) unless @schema.save
+
+        render template: 'api/v1/schemas/show', status: :ok
       end
 
       private

@@ -5,4 +5,5 @@ class Schema < ActiveRecord::Base
 
   belongs_to :account
   validates_presence_of :name
+  validates_length_of :name, in: 1..32, allow_blank: false
 end
