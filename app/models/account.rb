@@ -1,6 +1,9 @@
 require_dependency 'pbkdf2'
+require_dependency 'has_uuid'
 
 class Account < ActiveRecord::Base
+  include HasUuid
+
   validates :email, email: true
   validates_presence_of :email
   validate :validate_password

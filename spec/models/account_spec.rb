@@ -1,7 +1,9 @@
 require 'rails_helper'
+require_relative 'concerns/has_uuid_spec'
 
 RSpec.describe Account, type: :model do
 
+  it_behaves_like 'has_uuid'
   it { is_expected.to validate_presence_of :email }
   it { is_expected.to validate_uniqueness_of :email }
   it { is_expected.to validate_length_of(:password).is_at_least(6).with_message('should at least be 6 characters long.') }
