@@ -32,6 +32,9 @@ module Qualify
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+    # Do not use the nobrainer generators
+    config.app_generators.orm :active_record
+
     # Password hash iterations
     config.pbkdf2_iterations = 64000
 

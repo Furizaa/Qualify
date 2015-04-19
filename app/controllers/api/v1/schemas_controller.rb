@@ -1,6 +1,10 @@
+require 'tenancy'
+
 module Api
   module V1
     class SchemasController < ApplicationController
+
+      include Tenancy
 
       before_action :authenticate_jwt!
 
@@ -17,6 +21,8 @@ module Api
         @schema = Schema.new(create_params)
         @schema.account = current_account
         return render_validation_error(@schema) unless @schema.save
+
+        create_tenant_schema(@schema)
         render template: 'api/v1/schemas/show', status: :created
       end
 
@@ -24,7 +30,10 @@ module Api
         schema = Schema.find_by_uuid(params[:id])
         return render nothing: true, status: :not_found unless guardian.can_view_schema?(schema)
 
+        destroy_tenant_schema(schema)
         schema.destroy!
+        clean_tenant_databases_for(current_account)
+
         render nothing: true, status: :no_content
       end
 

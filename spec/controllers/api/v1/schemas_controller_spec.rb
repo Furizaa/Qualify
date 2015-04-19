@@ -14,8 +14,10 @@ RSpec.describe Api::V1::SchemasController, type: :controller do
     end
 
     describe '#create' do
+
       context 'with sufficent parameters' do
         before do
+          allow(controller).to receive(:create_tenant_schema)
           post :create, { schema: { name: 'testschema' } }
         end
 
@@ -25,7 +27,7 @@ RSpec.describe Api::V1::SchemasController, type: :controller do
         it { expect(response.body).to have_json_path('data/id') }
         it { expect(response.body).to have_json_path('data/name') }
         it { expect(response.body).to have_json_path('data/links/self') }
-        end
+      end
 
       context 'with insufficient parameters' do
         before do
@@ -41,6 +43,8 @@ RSpec.describe Api::V1::SchemasController, type: :controller do
       context 'when account owns the schema' do
         let(:schema) { FactoryGirl.create(:schema, account: @account) }
         before do
+          allow(controller).to receive(:destroy_tenant_schema)
+          allow(controller).to receive(:clean_tenant_databases_for)
           delete :destroy, { id: schema.uuid }
         end
 

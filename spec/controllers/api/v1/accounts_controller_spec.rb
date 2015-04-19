@@ -50,7 +50,7 @@ RSpec.describe Api::V1::AccountsController, type: :controller do
 
       it { is_expected.to respond_with 422 }
       it { expect(response.body).to have_json_path('reasons/email') }
-      it { expect(json_response['reasons']['email'].first).to match /already been taken/ }
+      it { expect(json_response['reasons']['email'].first).to match /taken/ }
     end
   end
 

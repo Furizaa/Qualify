@@ -30,6 +30,13 @@ class ApplicationController < ActionController::API
     request.format = :json
   end
 
+  def select_tenancy_database
+    raise Qualify::NotAuthenticated unless current_account.present?
+    Thread.current[:database] = current_account.uuid
+    yield
+    Thread.current[:database] = 'purgatory'
+  end
+
   def render_validation_error(model)
     render json: {
                message: I18n.t('api.create.invalid'),
