@@ -1,6 +1,6 @@
 machine:
   environment:
-    RETHINK_DB: rethinkdb://localhost:28015/purgatory
+    rethink_db: rethinkdb://localhost:28015/purgatory
 
 dependencies:
   pre:
