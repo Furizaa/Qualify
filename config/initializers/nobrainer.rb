@@ -15,7 +15,7 @@ NoBrainer.configure do |config|
   # * RETHINKDB_URL, RDB_URL
   # * RETHINKDB_HOST, RETHINKDB_PORT, RETHINKDB_DB, RETHINKDB_AUTH
   # * RDB_HOST, RDB_PORT, RDB_DB, RDB_AUTH
-  config.rethinkdb_url = "rethinkdb://192.168.59.103:28015/purgatory"
+  config.rethinkdb_url = ENV['RETHINK_DB']
 
   # NoBrainer uses logger to emit debugging information.
   # The default logger is the Rails logger if run with Rails,
