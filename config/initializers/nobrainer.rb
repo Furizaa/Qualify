@@ -44,7 +44,7 @@ NoBrainer.configure do |config|
 
   # Configures the durability for database writes.
   # The default is :soft for development or test environment, otherwise :hard.
-  # config.durability = config.default_durability
+  config.durability = :hard
 
   # Persisted Strings have a configurable maximum length. To get rid of the
   # length validation, you may use the Text type instead.
