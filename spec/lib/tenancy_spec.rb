@@ -3,8 +3,12 @@ require 'tenancy'
 
 RSpec.describe Tenancy do
 
+  before do
+    NoBrainer.db_drop('test') if NoBrainer.db_list.include?('test')
+  end
+
   after :each do
-    #NoBrainer.db_list.each { |db| NoBrainer.db_drop(db) unless db == 'rethinkdb' }
+    NoBrainer.db_list.each { |db| NoBrainer.db_drop(db) unless db == 'rethinkdb' }
   end
 
   let(:schema) { FactoryGirl::create(:schema) }
@@ -33,7 +37,7 @@ RSpec.describe Tenancy do
 
   it 'destroys table' do
     impl.new.create_tenant_schema(schema)
-    result = impl.new.destroy_tenant_schema(schema)
+    impl.new.destroy_tenant_schema(schema)
     NoBrainer.with_database(schema.account.uuid) do
       expect(NoBrainer.table_list.length).to be(0)
     end
