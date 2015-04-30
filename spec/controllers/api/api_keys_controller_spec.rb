@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::ApiKeysController, type: :controller do
+RSpec.describe Api::ApiKeysController, type: :controller do
 
   render_views
 

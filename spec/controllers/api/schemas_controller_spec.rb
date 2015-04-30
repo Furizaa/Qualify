@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::SchemasController, type: :controller do
+RSpec.describe Api::SchemasController, type: :controller do
 
   render_views
 

@@ -6,7 +6,7 @@ module HasUuid
   end
 
   def generate_uuid
-    write_attribute(:uuid, SecureRandom::hex(16))
+    write_attribute(:uuid, SecureRandom::uuid)
   end
 
   def uuid

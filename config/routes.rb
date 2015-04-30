@@ -3,13 +3,11 @@ require 'api_constraints'
 Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json }, constraints: ApiConstraints.new(version: 1) do
-    namespace :v1 do
-      post 'accounts' => 'accounts#create'
-      get 'accounts'  => 'accounts#authenticate'
+    post 'accounts' => 'accounts#create'
+    get 'accounts'  => 'accounts#authenticate'
 
-      resources :api_keys, only: [:index, :create, :destroy]
-      resources :schemas
-    end
+    resources :api_keys, only: [:index, :create, :destroy]
+    resources :schemas
   end
 
 

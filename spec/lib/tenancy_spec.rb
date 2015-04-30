@@ -16,33 +16,33 @@ RSpec.describe Tenancy do
 
   it 'creates database and table' do
     impl.new.create_tenant_schema(schema)
-    expect(NoBrainer.db_list).to include(schema.account.uuid)
-    NoBrainer.with_database(schema.account.uuid) do
-      expect(NoBrainer.table_list).to include(schema.uuid)
+    expect(NoBrainer.db_list).to include(schema.account.database_name)
+    NoBrainer.with_database(schema.account.database_name) do
+      expect(NoBrainer.table_list).to include(schema.schema_name)
     end
     expect(NoBrainer.db_list.length).to be(2) # also counts system db "rethinkdb"
-    NoBrainer.db_drop(schema.account.uuid)
+    NoBrainer.db_drop(schema.account.database_name)
   end
 
   it 'creates database and table only once' do
     impl.new.create_tenant_schema(schema)
     impl.new.create_tenant_schema(schema)
-    expect(NoBrainer.db_list).to include(schema.account.uuid)
-    NoBrainer.with_database(schema.account.uuid) do
+    expect(NoBrainer.db_list).to include(schema.account.database_name)
+    NoBrainer.with_database(schema.account.database_name) do
       expect(NoBrainer.table_list.length).to be(1)
     end
     expect(NoBrainer.db_list.length).to be(2) # also counts system db "rethinkdb"
-    NoBrainer.db_drop(schema.account.uuid)
+    NoBrainer.db_drop(schema.account.database_name)
   end
 
   it 'destroys table' do
     impl.new.create_tenant_schema(schema)
     impl.new.destroy_tenant_schema(schema)
-    NoBrainer.with_database(schema.account.uuid) do
+    NoBrainer.with_database(schema.account.database_name) do
       expect(NoBrainer.table_list.length).to be(0)
     end
     expect(NoBrainer.db_list.length).to be(2) # also counts system db "rethinkdb"
-    NoBrainer.db_drop(schema.account.uuid)
+    NoBrainer.db_drop(schema.account.database_name)
   end
 
   it 'destroys database' do

@@ -10,7 +10,7 @@ RSpec.describe ApiKey, type: :model do
       api_key.generate_key!
     end
     it 'generates key' do
-      expect(api_key.key.length).to eq(32)
+      expect(api_key.key.length).to eq(36)
     end
   end
 end

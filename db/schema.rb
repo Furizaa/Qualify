@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150418140654) do
+ActiveRecord::Schema.define(version: 20150430185520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,16 +19,16 @@ ActiveRecord::Schema.define(version: 20150418140654) do
   create_table "accounts", force: :cascade do |t|
     t.string   "email",         limit: 256
     t.string   "password_hash", limit: 64
-    t.string   "salt",          limit: 32
+    t.string   "salt",          limit: 36
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.string   "uuid",          limit: 32
+    t.string   "uuid",          limit: 36
   end
 
   add_index "accounts", ["uuid"], name: "index_accounts_on_uuid", unique: true, using: :btree
 
   create_table "api_keys", force: :cascade do |t|
-    t.string   "key",        limit: 32
+    t.string   "key",        limit: 36
     t.integer  "account_id"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20150418140654) do
 
   create_table "schemas", force: :cascade do |t|
     t.string   "name",       limit: 64
-    t.string   "uuid",       limit: 32
+    t.string   "uuid",       limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.integer  "account_id"

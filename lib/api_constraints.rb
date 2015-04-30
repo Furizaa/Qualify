@@ -4,6 +4,6 @@ class ApiConstraints
   end
 
   def matches?(request)
-    request.headers['Accept'].include?("application/vnd.qualify.v#{@version}")
+    request.headers['Accept'].include?("application/vnd.qualify.v#{@version}+json")
   end
 end

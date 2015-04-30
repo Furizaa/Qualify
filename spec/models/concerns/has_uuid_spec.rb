@@ -5,6 +5,6 @@ RSpec.shared_examples_for 'has_uuid' do
 
   it 'generates a uuid' do
     unique_identifyable = FactoryGirl.create(model.to_s.underscore.to_sym)
-    expect(unique_identifyable.uuid.length).to eq(32)
+    expect(unique_identifyable.uuid.length).to eq(36)
   end
 end

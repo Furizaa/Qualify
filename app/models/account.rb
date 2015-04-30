@@ -29,6 +29,10 @@ class Account < ActiveRecord::Base
     read_attribute(:password)
   end
 
+  def database_name
+    read_attribute(:uuid).gsub('-', '_')
+  end
+
   def email=(email)
     write_attribute(:email, email.strip.downcase) if email
   end
@@ -59,7 +63,7 @@ class Account < ActiveRecord::Base
 
   def ensure_password_is_hashed
     if @raw_password
-      self.salt = SecureRandom.hex(16)
+      self.salt = SecureRandom.uuid
       self.password_hash = hash_password(@raw_password, salt)
     end
   end

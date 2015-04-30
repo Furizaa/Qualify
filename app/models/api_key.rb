@@ -5,6 +5,6 @@ class ApiKey < ActiveRecord::Base
   validates_presence_of :key
 
   def generate_key!
-    write_attribute(:key, SecureRandom.hex(16))
+    write_attribute(:key, SecureRandom.uuid)
   end
 end

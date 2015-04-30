@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :api_key do
     account
-    key { SecureRandom.hex(16) }
+    key { SecureRandom.uuid }
   end
 end
